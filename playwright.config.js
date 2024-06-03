@@ -27,9 +27,9 @@ module.exports = defineConfig({
     timeout: 60000,
     baseURL: "https://www.sofa.de/",
     headless: true,
-    // screenshot: "only-on-failure",
-    // video: "retain-on-failure",
-    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+    trace: "retain-on-failure",
     launchOptions: {
       // slowMo: 500,
     },

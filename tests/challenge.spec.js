@@ -1,11 +1,9 @@
 //npx playwright codegen
 //npx playwright test --project=chromium --headed
-//
 //npx playwright show-report
 import { test, expect } from "@playwright/test";
 import {
   generateRandomUserData,
-  shuffle,
   convertPriceToNumber,
 } from "../utilities/utils";
 
@@ -17,7 +15,6 @@ import CategoryPage from "../pages/categoryPage";
 import WishlistPage from "../pages/wishlistPage";
 import ShoppingCartPage from "../pages/shoppingCartPage";
 
-// const userData = generateRandomUserData();
 let userData;
 
 test.describe("Login and registation tests", () => {
@@ -84,16 +81,13 @@ test.describe("Login and registation tests", () => {
       await homePage.getLoginCheckElement(userData.firstName, userData.lastName)
     ).toBeVisible();
 
-    //Visiting category page
+    //visiting category page
     await page.goto(userData.category);
 
-    //Getting the full list of items in the first page of the category page, random category per each test
-    //
-    const productsData = await categoryPage.getProductsData();
-    //Using the utils function suffle to reandomize the elements and trimming the whole list to 5
-    const randomProducts = shuffle(productsData).slice(0, 5);
+    //getting random products in the first page of the category page
+    const randomProducts = await categoryPage.getRandomProductsData(5);
 
-    //Clicking the wishlist button per each product on the list of 5
+    //clicking the wishlist button per each product on the list of random products in this case 5
     for (const product of randomProducts) {
       await categoryPage.clickWishlistButton(product.wishlistButton);
     }
@@ -107,7 +101,7 @@ test.describe("Login and registation tests", () => {
         product.id
       );
 
-      //Cleaning inconsistencies in the product name due to the way elements are build that sometimes add more than one space in between and passing everything to lower case
+      //cleaning inconsistencies in the product name due to the way elements are build that sometimes add more than one space in between and passing everything to lower case
       const formatWLProductName = wlProductData.productName
         .replace(/\s+/g, " ")
         .trim()
