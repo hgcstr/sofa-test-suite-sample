@@ -138,6 +138,6 @@ test.describe("Login and registation tests", () => {
       await shoppingCartPage.getValueOfGoods()
     );
 
-    expect(totalPriceInShoppingCart).toBe(totalPriceInShoppingCart);
+    expect(totalPriceInShoppingCart).toBe(totalProductsPrice);
   });
 });
